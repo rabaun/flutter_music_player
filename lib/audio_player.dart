@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'around.dart';
+
 class AudioPlayerJust extends StatefulWidget {
   const AudioPlayerJust({
     Key? key,
@@ -142,6 +144,7 @@ class ControlButtons extends StatelessWidget {
         // Opens volume slider dialog
         IconButton(
           icon: SvgPicture.asset(
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
             'images/volume.svg',
             width: 30,
             height: 31,
@@ -184,6 +187,7 @@ class ControlButtons extends StatelessWidget {
                 child: IconButton(
                   iconSize: 45,
                   icon: SvgPicture.asset(
+                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     height: 77,
                     'images/play.svg',
                   ),
@@ -196,6 +200,7 @@ class ControlButtons extends StatelessWidget {
                 child: IconButton(
                   iconSize: 45,
                   icon: SvgPicture.asset(
+                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     height: 77,
                     'images/stop.svg',
                   ),
@@ -208,6 +213,7 @@ class ControlButtons extends StatelessWidget {
                 child: IconButton(
                   iconSize: 45,
                   icon: SvgPicture.asset(
+                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     height: 77,
                     'images/stop.svg',
                   ),
@@ -302,6 +308,7 @@ class SeekBarState extends State<SeekBar> {
       children: [
         SliderTheme(
           data: _sliderThemeData.copyWith(
+            trackShape: const RoundSliderTrackShape (),
             thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: Colors.transparent,
             inactiveTrackColor: const Color(0xff590677),
@@ -331,6 +338,7 @@ class SeekBarState extends State<SeekBar> {
         ),
         SliderTheme(
           data: _sliderThemeData.copyWith(
+            trackShape: const RoundSliderTrackShape  (),
             thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: const Color(0xffEB5757),
             inactiveTrackColor: const Color(0xff590677),
