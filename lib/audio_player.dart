@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -59,7 +58,6 @@ class _AudioPlayerJustState extends State<AudioPlayerJust> {
     }
   }
 
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       // Release the player's resources when not in use. We use "stop" so that
@@ -143,12 +141,16 @@ class ControlButtons extends StatelessWidget {
       children: [
         // Opens volume slider dialog
         IconButton(
-          icon: SvgPicture.asset(
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            'images/volume.svg',
-            width: 30,
-            height: 31,
+          icon: const Icon(
+            Icons.volume_up,
+            color: Colors.white,
           ),
+          // SvgPicture.asset(
+          //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          //   'images/volume.svg',
+          //   width: 30,
+          //   height: 31,
+          // ),
           onPressed: () {
             showSliderDialog(
               context: context,
@@ -184,48 +186,91 @@ class ControlButtons extends StatelessWidget {
             } else if (playing != true) {
               return Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: IconButton(
-                  iconSize: 45,
-                  icon: SvgPicture.asset(
-                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    height: 77,
-                    'images/play.svg',
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    ),
                   ),
-                  onPressed: player.play,
+                  child: IconButton(
+                    iconSize: 45,
+                    icon: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
+                    // SvgPicture.asset(
+                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    //   height: 77,
+                    //   'images/play.svg',
+                    // ),
+                    onPressed: player.play,
+                  ),
                 ),
               );
             } else if (processingState != ProcessingState.completed) {
               return Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: IconButton(
-                  iconSize: 45,
-                  icon: SvgPicture.asset(
-                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    height: 77,
-                    'images/stop.svg',
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    ),
                   ),
-                  onPressed: player.pause,
+                  child:  IconButton(
+                    iconSize: 45,
+                    icon: const Icon(
+                      Icons.pause,
+                      color: Colors.white,
+                    ),
+                    // SvgPicture.asset(
+                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    //   height: 77,
+                    //   'images/stop.svg',
+                    // ),
+                    onPressed: player.pause,
+                  ),
                 ),
               );
             } else {
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: IconButton(
-                  iconSize: 45,
-                  icon: SvgPicture.asset(
-                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    height: 77,
-                    'images/stop.svg',
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    ),
                   ),
-                  onPressed: player.pause,
+                  child:  IconButton(
+                    iconSize: 45,
+                    icon: const Icon(
+                      Icons.pause,
+                      color: Colors.white,
+                    ),
+                    // SvgPicture.asset(
+                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    //   height: 77,
+                    //   'images/stop.svg',
+                    // ),
+                    onPressed: player.pause,
+                  ),
                 ),
               );
               return IconButton(
                 iconSize: 45,
-                icon: SvgPicture.asset(
-                  height: 77,
-                  'images/replay.svg',
+                icon: const Icon(
+                  Icons.replay,
+                  color: Colors.white,
                 ),
+                // SvgPicture.asset(
+                //   height: 77,
+                //   'images/replay.svg',
+                // ),
                 onPressed: () => player.seek(Duration.zero),
               );
             }
@@ -308,10 +353,8 @@ class SeekBarState extends State<SeekBar> {
       children: [
         SliderTheme(
           data: _sliderThemeData.copyWith(
-            trackShape: const RoundSliderTrackShape (),
             thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: Colors.transparent,
-            inactiveTrackColor: const Color(0xff590677),
           ),
           child: ExcludeSemantics(
             child: Slider(
@@ -338,7 +381,7 @@ class SeekBarState extends State<SeekBar> {
         ),
         SliderTheme(
           data: _sliderThemeData.copyWith(
-            trackShape: const RoundSliderTrackShape  (),
+            trackShape: const RoundSliderTrackShape (),
             thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: const Color(0xffEB5757),
             inactiveTrackColor: const Color(0xff590677),
