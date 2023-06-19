@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'around.dart';
-
 class AudioPlayerJust extends StatefulWidget {
   const AudioPlayerJust({
     Key? key,
@@ -87,39 +85,41 @@ class _AudioPlayerJustState extends State<AudioPlayerJust> {
               padding: const EdgeInsets.all(28.0),
               child: Center(
                 child: Container(
-                  height: 200,
+                  height: 130,
                   width: 400,
                   decoration: BoxDecoration(
                     color: widget.backgroundColor,
                     borderRadius: BorderRadius.circular(25.0),
                   ),
-                  child: SafeArea(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Display seek bar. Using StreamBuilder, this widget rebuilds
-                        // each time the position, buffered position or duration changes.
-                        StreamBuilder<PositionData>(
+                  child: Column(
+                    children: [
+                      // Display seek bar. Using StreamBuilder, this widget rebuilds
+                      // each time the position, buffered position or duration changes.
+                      Expanded(
+                        flex: 1,
+                        child: StreamBuilder<PositionData>(
                           stream: _positionDataStream,
                           builder: (context, snapshot) {
                             final positionData = snapshot.data;
-                            return SeekBar(
-                              player: _player,
-                              duration: positionData?.duration ?? Duration.zero,
-                              position: positionData?.position ?? Duration.zero,
-                              bufferedPosition:
-                                  positionData?.bufferedPosition ??
-                                      Duration.zero,
-                              onChangeEnd: _player.seek,
-                            );
+                            return (positionData != null)
+                                ? SeekBar(
+                                    player: _player,
+                                    duration: positionData.duration,
+                                    position: (positionData.position <=
+                                            const Duration(seconds: 1))
+                                        ? const Duration(seconds: 1)
+                                        : positionData.position,
+                                    bufferedPosition:
+                                        positionData.bufferedPosition,
+                                    onChangeEnd: _player.seek,
+                                  )
+                                : Container();
                           },
                         ),
-                        // Display play/pause button and volume/speed sliders.
-
-                        ControlButtons(_player),
-                      ],
-                    ),
+                      ),
+                      // Display play/pause button and volume/speed sliders.
+                      Expanded(flex: 1, child: ControlButtons(_player)),
+                    ],
                   ),
                 ),
               ),
@@ -145,12 +145,6 @@ class ControlButtons extends StatelessWidget {
             Icons.volume_up,
             color: Colors.white,
           ),
-          // SvgPicture.asset(
-          //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-          //   'images/volume.svg',
-          //   width: 30,
-          //   height: 31,
-          // ),
           onPressed: () {
             showSliderDialog(
               context: context,
@@ -158,6 +152,8 @@ class ControlButtons extends StatelessWidget {
               divisions: 10,
               min: 0.0,
               max: 1.0,
+              activeColor: Colors.purple,
+              inactiveColor: Colors.purple.shade100,
               value: player.volume,
               stream: player.volumeStream,
               onChanged: player.setVolume,
@@ -184,93 +180,65 @@ class ControlButtons extends StatelessWidget {
                 child: const CircularProgressIndicator(),
               );
             } else if (playing != true) {
-              return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
+              return Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
                   ),
-                  child: IconButton(
-                    iconSize: 45,
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                    ),
-                    // SvgPicture.asset(
-                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    //   height: 77,
-                    //   'images/play.svg',
-                    // ),
-                    onPressed: player.play,
+                ),
+                child: IconButton(
+                  iconSize: 35,
+                  icon: const Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
                   ),
+                  onPressed: player.play,
                 ),
               );
             } else if (processingState != ProcessingState.completed) {
-              return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
+              return Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
                   ),
-                  child:  IconButton(
-                    iconSize: 45,
-                    icon: const Icon(
-                      Icons.pause,
-                      color: Colors.white,
-                    ),
-                    // SvgPicture.asset(
-                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    //   height: 77,
-                    //   'images/stop.svg',
-                    // ),
-                    onPressed: player.pause,
+                ),
+                child: IconButton(
+                  iconSize: 35,
+                  icon: const Icon(
+                    Icons.pause,
+                    color: Colors.white,
                   ),
+                  onPressed: player.pause,
                 ),
               );
             } else {
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
                   ),
-                  child:  IconButton(
-                    iconSize: 45,
-                    icon: const Icon(
-                      Icons.pause,
-                      color: Colors.white,
-                    ),
-                    // SvgPicture.asset(
-                    //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    //   height: 77,
-                    //   'images/stop.svg',
-                    // ),
-                    onPressed: player.pause,
+                ),
+                child: IconButton(
+                  iconSize: 35,
+                  icon: const Icon(
+                    Icons.pause,
+                    color: Colors.white,
                   ),
+                  onPressed: player.pause,
                 ),
               );
               return IconButton(
-                iconSize: 45,
+                iconSize: 35,
                 icon: const Icon(
                   Icons.replay,
                   color: Colors.white,
                 ),
-                // SvgPicture.asset(
-                //   height: 77,
-                //   'images/replay.svg',
-                // ),
                 onPressed: () => player.seek(Duration.zero),
               );
             }
@@ -291,6 +259,8 @@ class ControlButtons extends StatelessWidget {
                 divisions: 10,
                 min: 0.5,
                 max: 1.5,
+                activeColor: Colors.purple,
+                inactiveColor: Colors.purple.shade100,
                 value: player.speed,
                 stream: player.speedStream,
                 onChanged: player.setSpeed,
@@ -354,35 +324,6 @@ class SeekBarState extends State<SeekBar> {
         SliderTheme(
           data: _sliderThemeData.copyWith(
             thumbShape: SliderComponentShape.noThumb,
-            activeTrackColor: Colors.transparent,
-          ),
-          child: ExcludeSemantics(
-            child: Slider(
-              min: 0.0,
-              max: widget.duration.inMilliseconds.toDouble(),
-              value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
-                  widget.duration.inMilliseconds.toDouble()),
-              onChanged: (value) {
-                setState(() {
-                  _dragValue = value;
-                });
-                if (widget.onChanged != null) {
-                  widget.onChanged!(Duration(milliseconds: value.round()));
-                }
-              },
-              onChangeEnd: (value) {
-                if (widget.onChangeEnd != null) {
-                  widget.onChangeEnd!(Duration(milliseconds: value.round()));
-                }
-                _dragValue = null;
-              },
-            ),
-          ),
-        ),
-        SliderTheme(
-          data: _sliderThemeData.copyWith(
-            trackShape: const RoundSliderTrackShape (),
-            thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: const Color(0xffEB5757),
             inactiveTrackColor: const Color(0xff590677),
           ),
@@ -438,6 +379,8 @@ void showSliderDialog({
   required int divisions,
   required double min,
   required double max,
+  required Color inactiveColor,
+  required Color activeColor,
   String valueSuffix = '',
   // TODO: Replace these two by ValueStream.
   required double value,
@@ -463,6 +406,8 @@ void showSliderDialog({
                 divisions: divisions,
                 min: min,
                 max: max,
+                inactiveColor: inactiveColor,
+                activeColor: activeColor,
                 value: snapshot.data ?? value,
                 onChanged: onChanged,
               ),

@@ -22,18 +22,19 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key,});
+  const MyHomePage({
+    super.key,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body:AudioPlayerJust(backgroundColor: Color(0xff3B1265)), // This trailing comma makes auto-formatting nicer for build methods.
+      body: AudioPlayerJust(backgroundColor: Color(0xff3B1265), autoplay: true), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
