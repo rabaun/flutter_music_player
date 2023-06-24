@@ -85,7 +85,7 @@ class _AudioPlayerJustState extends State<AudioPlayerJust> {
               padding: const EdgeInsets.all(28.0),
               child: Center(
                 child: Container(
-                  height: 130,
+                  height: 140,
                   width: 400,
                   decoration: BoxDecoration(
                     color: widget.backgroundColor,
@@ -323,6 +323,7 @@ class SeekBarState extends State<SeekBar> {
       children: [
         SliderTheme(
           data: _sliderThemeData.copyWith(
+            trackHeight: 4,
             thumbShape: SliderComponentShape.noThumb,
             activeTrackColor: const Color(0xffEB5757),
             inactiveTrackColor: const Color(0xff590677),
