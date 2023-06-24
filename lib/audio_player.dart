@@ -152,8 +152,8 @@ class ControlButtons extends StatelessWidget {
               divisions: 10,
               min: 0.0,
               max: 1.0,
-              activeColor: Colors.purple,
-              inactiveColor: Colors.purple.shade100,
+              activeColor: const Color(0xFF9C27B0),
+              inactiveColor: const Color(0xFFE1BEE7),
               value: player.volume,
               stream: player.volumeStream,
               onChanged: player.setVolume,
@@ -184,7 +184,7 @@ class ControlButtons extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                     width: 2,
                   ),
                 ),
@@ -192,7 +192,7 @@ class ControlButtons extends StatelessWidget {
                   iconSize: 35,
                   icon: const Icon(
                     Icons.play_arrow,
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                   ),
                   onPressed: player.play,
                 ),
@@ -202,7 +202,7 @@ class ControlButtons extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                     width: 2,
                   ),
                 ),
@@ -210,7 +210,7 @@ class ControlButtons extends StatelessWidget {
                   iconSize: 35,
                   icon: const Icon(
                     Icons.pause,
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                   ),
                   onPressed: player.pause,
                 ),
@@ -220,7 +220,7 @@ class ControlButtons extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                     width: 2,
                   ),
                 ),
@@ -228,7 +228,7 @@ class ControlButtons extends StatelessWidget {
                   iconSize: 35,
                   icon: const Icon(
                     Icons.pause,
-                    color: Colors.white,
+                    color: const Color(0xFFFFFFFF),
                   ),
                   onPressed: player.pause,
                 ),
@@ -237,7 +237,7 @@ class ControlButtons extends StatelessWidget {
                 iconSize: 35,
                 icon: const Icon(
                   Icons.replay,
-                  color: Colors.white,
+                  color: const Color(0xFFFFFFFF),
                 ),
                 onPressed: () => player.seek(Duration.zero),
               );
@@ -259,8 +259,8 @@ class ControlButtons extends StatelessWidget {
                 divisions: 10,
                 min: 0.5,
                 max: 1.5,
-                activeColor: Colors.purple,
-                inactiveColor: Colors.purple.shade100,
+                activeColor: const Color(0xFF9C27B0),
+                inactiveColor: const Color(0xFFE1BEE7),
                 value: player.speed,
                 stream: player.speedStream,
                 onChanged: player.setSpeed,
